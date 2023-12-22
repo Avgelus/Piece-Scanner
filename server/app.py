@@ -136,9 +136,10 @@ class ReviewResource(Resource):
             else:
                 reviews = Review.query.all()
 
-            return [review.serialize() for review in reviews], 200
+            return [review.to_dict() for review in reviews], 200
 
         except Exception as e:
+            print(f"Error fetching reviews: {e}")
             return make_response({'message': 'Error fetching reviews', 'error': str(e)}, 500)
 
     def post(self):
@@ -179,6 +180,21 @@ class ReviewsById(Resource):
                 return make_response({'message': 'Failed to delete review', 'error': str(e)}, 500)
         else:
             return make_response({'message': 'Review not found'}, 404)
+    
+    def put(self, review_id):
+        data = request.json
+        review = Review.query.get(review_id)
+        if not review:
+            return make_response({'message': 'Review not found'}, 404)
+
+        review.information = data.get('information', review.information)
+
+        try:
+            db.session.commit()
+            return make_response({'message': 'Review updated', 'id': review.id}, 200)
+        except Exception as e:
+            db.session.rollback()
+            return make_response({'message': 'Failed to update review', 'error': str(e)}, 500)
 
 api.add_resource(ReviewsById, '/reviews/<int:review_id>')
 

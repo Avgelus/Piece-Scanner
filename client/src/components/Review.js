@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Review({ clothingId }) {
+function Review({ clothingId, onReviewSubmit }) {
     const [reviewText, setReviewText] = useState('');
     const [submitting, setSubmitting] = useState(false);
 
@@ -13,7 +13,7 @@ function Review({ clothingId }) {
             headers: {
                 "Content-Type": "application/json",
             },
-            body: JSON.stringify({ clothingId: clothingId, content: reviewText }),
+            body: JSON.stringify({ information: reviewText, clothes_id: clothingId }),
         })
         .then(response => {
             if (response.ok) {
@@ -23,7 +23,7 @@ function Review({ clothingId }) {
             }
         })
         .then(data => {
-            console.log("Review submitted:", data);
+            onReviewSubmit(data);
             setReviewText('');
         })
         .catch(error => {

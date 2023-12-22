@@ -8,17 +8,32 @@ function Showcase() {
     const [reviews, setReviews] = useState([]);
     const { id } = useParams();
 
+    const fetchReviews = () => {
+        fetch(`/reviews?clothes_id=${id}`)
+            .then(response => response.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setReviews(data);
+                } else {
+                    console.error('Fetched data is not an array:', data);
+                }
+            })
+            .catch(error => console.error('Error fetching reviews:', error));
+    };
+
     useEffect(() => {
         fetch(`/clothes/${id}`)
             .then(response => response.json())
             .then(data => setPiece(data))
             .catch(error => console.error('Error:', error));
 
-        fetch(`/reviews?clothes_id=${id}`)
-            .then(response => response.json())
-            .then(data => setReviews(data))
-            .catch(error => console.error('Error fetching reviews:', error));
+        fetchReviews();
     }, [id]);
+
+    const addNewReview = (newReview) => {
+        setReviews(prevReviews => [...prevReviews, newReview]);
+        fetchReviews();
+    };
 
     if (!piece) {
         return <p>Loading clothing item...</p>;
@@ -38,12 +53,12 @@ function Showcase() {
                 <h3>Reviews</h3>
                 {reviews.map(review => (
                     <div key={review.id} className="review">
-                        <p>{review.content}</p>
+                        <p>{review.information}</p>
                     </div>
                 ))}
             </div>
 
-            <Review clothingId={id} />
+            <Review clothingId={id} onReviewSubmit={addNewReview} />
         </div>
     );
 }

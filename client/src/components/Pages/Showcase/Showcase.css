@@ -10,10 +10,10 @@
 }
 
 .clothing-image {
-    width: 100%; /* Adjust as per your design, could be a smaller percentage or fixed pixels */
-    max-width: 300px; /* Example fixed max-width, adjust as needed */
+    width: 100%;
+    max-width: 300px;
     height: auto;
-    object-fit: contain; /* This will ensure the image is scaled properly within the given dimensions */
+    object-fit: contain;
 }
 
 .reviews-section {
