@@ -1,4 +1,28 @@
-.showcase-image {
-    max-width: 20%;
-    height: auto;  
+.showcase-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.clothing-details {
+    text-align: center;
+}
+
+.clothing-image {
+    width: 100%; /* Adjust as per your design, could be a smaller percentage or fixed pixels */
+    max-width: 300px; /* Example fixed max-width, adjust as needed */
+    height: auto;
+    object-fit: contain; /* This will ensure the image is scaled properly within the given dimensions */
+}
+
+.reviews-section {
+    width: 100%;
+}
+
+.review {
+    background-color: #f3f3f3;
+    padding: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
 }

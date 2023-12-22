@@ -129,8 +129,17 @@ api.add_resource(ClothesById, "/clothes/<id>")
 
 class ReviewResource(Resource):
     def get(self):
-        reviews = Review.query.all()
-        return [review.serialize() for review in reviews], 200
+        clothes_id = request.args.get('clothes_id')
+        try:
+            if clothes_id:
+                reviews = Review.query.filter_by(clothes_id=clothes_id).all()
+            else:
+                reviews = Review.query.all()
+
+            return [review.serialize() for review in reviews], 200
+
+        except Exception as e:
+            return make_response({'message': 'Error fetching reviews', 'error': str(e)}, 500)
 
     def post(self):
         data = request.json
@@ -148,6 +157,7 @@ class ReviewResource(Resource):
             return make_response({'message': 'Failed to add review', 'error': str(e)}, 500)
 
 api.add_resource(ReviewResource, '/reviews')
+
 
 class ReviewsById(Resource):
     def get(self, review_id):

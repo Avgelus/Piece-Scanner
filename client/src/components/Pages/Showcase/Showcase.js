@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-
-import "./Showcase.css"; 
+import Review from "../../Review";
+import "./Showcase.css";
 
 function Showcase() {
     const [piece, setPiece] = useState(null);
+    const [reviews, setReviews] = useState([]);
     const { id } = useParams();
 
     useEffect(() => {
@@ -12,6 +13,11 @@ function Showcase() {
             .then(response => response.json())
             .then(data => setPiece(data))
             .catch(error => console.error('Error:', error));
+
+        fetch(`/reviews?clothes_id=${id}`)
+            .then(response => response.json())
+            .then(data => setReviews(data))
+            .catch(error => console.error('Error fetching reviews:', error));
     }, [id]);
 
     if (!piece) {
@@ -19,12 +25,25 @@ function Showcase() {
     }
 
     return (
-        <div>
-            <img src={piece.image_url} alt={piece.name} className="showcase-image" />
-            <h2>{piece.designer_name}</h2>
-            <p>{piece.name}</p>
-            <p>{piece.description}</p>
-            <p>Price: ${piece.price}</p>
+        <div className="showcase-container">
+            <div className="clothing-details">
+                <img src={piece.image_url} alt={piece.name} className="clothing-image" />
+                <h2>{piece.designer_name}</h2>
+                <p>{piece.name}</p>
+                <p>{piece.description}</p>
+                <p>Price: ${piece.price}</p>
+            </div>
+
+            <div className="reviews-section">
+                <h3>Reviews</h3>
+                {reviews.map(review => (
+                    <div key={review.id} className="review">
+                        <p>{review.content}</p>
+                    </div>
+                ))}
+            </div>
+
+            <Review clothingId={id} />
         </div>
     );
 }
