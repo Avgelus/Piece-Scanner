@@ -1,8 +1,8 @@
-import Homepage from "../components/Pages/Homepage/Homepage"
-import Login from "../components/Pages/Login/Login"
-import Showcase from "../components/Pages/Showcase/Showcase"
-import AddNewClothes from "../components/Pages/AddNewClothes/AddNewClothing"
-import App from "../components/App"
+import Homepage from "../components/Pages/Homepage/Homepage";
+import Login from "../components/Pages/Login/Login";
+import Showcase from "../components/Pages/Showcase/Showcase";
+import AddNewClothes from "../components/Pages/AddNewClothes/AddNewClothing";
+import App from "../components/App";
 
 const routes = [
     {
@@ -18,7 +18,7 @@ const routes = [
           element: <Homepage />,
         },
         {
-          path: '/Showcase',
+          path: '/Showcase/:id',
           element: <Showcase />,
         },
         {
@@ -27,6 +27,6 @@ const routes = [
         },
       ],
     },
-  ];
-  
-  export default routes;
+];
+
+export default routes;

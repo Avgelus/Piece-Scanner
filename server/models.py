@@ -46,6 +46,7 @@ class Clothes(db.Model, SerializerMixin):
     description = db.Column(db.Text)
     showcase = db.Column(db.Text)
     price = db.Column(db.Integer)
+    image_url = db.Column(db.String)
 
     reviews = db.relationship('Review', back_populates='clothes', cascade='all, delete-orphan')
     review_writers = association_proxy('reviews', 'owner')

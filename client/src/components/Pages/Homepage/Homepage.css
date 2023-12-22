@@ -1,0 +1,17 @@
+#search {
+    display: flex;
+    flex-direction: row;
+    gap: 1000px;
+    margin-bottom: 50px
+}
+
+#cards {
+    display:flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+#flex-basis{
+    flex-basis: 100%;
+    height: 0px
+}
