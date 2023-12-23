@@ -20,7 +20,6 @@ function Homepage() {
         fetch(`/clothes/${id}`, { method: 'DELETE' })
             .then(response => {
                 if (response.ok) {
-                    // Remove the deleted item from the pieces array
                     setPieces(prevPieces => prevPieces.filter(piece => piece.id !== id));
                 } else {
                     console.error('Failed to delete the item');

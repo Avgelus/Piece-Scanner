@@ -49,7 +49,7 @@ function AddNewClothes() {
             .then((newItem) => {
                 setClothes([...clothes, newItem]);
                 resetForm();
-                navigate('/Homepage'); // Navigate to Homepage after successful creation
+                navigate('/Homepage');
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -128,7 +128,7 @@ function AddNewClothes() {
             />
 
             <Button type="submit">Create Clothes</Button>
-            <Button onClick={goToHomepage}>Go to Homepage</Button> {/* Go to Homepage button */}
+            <Button onClick={goToHomepage}>Go to Homepage</Button>
         </form>
     );
 }
