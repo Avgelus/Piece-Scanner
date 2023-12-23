@@ -57,6 +57,10 @@ function AddNewClothes() {
         },
     });
 
+    const goToHomepage = () => {
+        navigate('/Homepage')
+    };
+
     return (
         <form onSubmit={formik.handleSubmit}>
             <label htmlFor="designerName">Designer Name:</label>
@@ -124,6 +128,7 @@ function AddNewClothes() {
             />
 
             <Button type="submit">Create Clothes</Button>
+            <Button onClick={goToHomepage}>Go to Homepage</Button> {/* Go to Homepage button */}
         </form>
     );
 }

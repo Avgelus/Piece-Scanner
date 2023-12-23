@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Review from "../../Review";
 import "./Showcase.css";
 
 function Showcase() {
     const [piece, setPiece] = useState(null);
     const [reviews, setReviews] = useState([]);
+    const [editingReview, setEditingReview] = useState(null);
     const { id } = useParams();
+    const navigate = useNavigate();
 
     const fetchReviews = () => {
         fetch(`/reviews?clothes_id=${id}`)
@@ -14,6 +16,7 @@ function Showcase() {
             .then(data => {
                 if (Array.isArray(data)) {
                     setReviews(data);
+                    setEditingReview(null);
                 } else {
                     console.error('Fetched data is not an array:', data);
                 }
@@ -30,9 +33,19 @@ function Showcase() {
         fetchReviews();
     }, [id]);
 
-    const addNewReview = (newReview) => {
-        setReviews(prevReviews => [...prevReviews, newReview]);
+    const addOrUpdateReview = (reviewData) => {
+        if (editingReview) {
+            setReviews(prevReviews => prevReviews.map(review => 
+                review.id === reviewData.id ? reviewData : review
+            ));
+        } else {
+            setReviews(prevReviews => [...prevReviews, reviewData]);
+        }
         fetchReviews();
+    };
+
+    const goToHomepage = () => {
+        navigate('/Homepage');
     };
 
     if (!piece) {
@@ -41,6 +54,8 @@ function Showcase() {
 
     return (
         <div className="showcase-container">
+            <button onClick={goToHomepage} className="go-home-button">Go to Homepage</button>
+
             <div className="clothing-details">
                 <img src={piece.image_url} alt={piece.name} className="clothing-image" />
                 <h2>{piece.designer_name}</h2>
@@ -54,11 +69,22 @@ function Showcase() {
                 {reviews.map(review => (
                     <div key={review.id} className="review">
                         <p>{review.information}</p>
+                        <button onClick={() => setEditingReview(review)}>Edit</button>
                     </div>
                 ))}
             </div>
 
-            <Review clothingId={id} onReviewSubmit={addNewReview} />
+            {editingReview ? (
+                <Review 
+                    reviewData={editingReview} 
+                    onUpdate={addOrUpdateReview} 
+                />
+            ) : (
+                <Review 
+                    clothingId={id} 
+                    onReviewSubmit={addOrUpdateReview} 
+                />
+            )}
         </div>
     );
 }
