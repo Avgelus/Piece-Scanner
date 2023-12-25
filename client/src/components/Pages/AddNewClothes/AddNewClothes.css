@@ -1,3 +1,20 @@
 #inputs{
     margin-right: 100px;
 }
+
+#creationbutton{
+    color: white;
+    background-color: black;
+    padding: 10px;
+    display: inline-block; 
+    text-decoration: none; 
+    margin-left: 10px;
+}
+
+#homepagebutton{
+    color: white;
+    background-color: black;
+    padding: 10px;
+    display: inline-block; 
+    text-decoration: none; 
+}

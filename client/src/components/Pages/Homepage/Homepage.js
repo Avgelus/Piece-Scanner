@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
-import { Button, TextField } from "@mui/material";
-import "./Homepage.css";
-import Cards from "../../Cards";
+import React, { useState, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Button, TextField } from '@mui/material';
+import './Homepage.css';
+import Cards from '../../Cards';
 
 function Homepage() {
     const [pieces, setPieces] = useState([]);
@@ -16,11 +16,13 @@ function Homepage() {
             .catch(error => console.error('Error:', error));
     }, []);
 
-    const deleteClothing = (id) => {
+    const deleteClothing = id => {
         fetch(`/clothes/${id}`, { method: 'DELETE' })
             .then(response => {
                 if (response.ok) {
-                    setPieces(prevPieces => prevPieces.filter(piece => piece.id !== id));
+                    setPieces(prevPieces =>
+                        prevPieces.filter(piece => piece.id !== id)
+                    );
                 } else {
                     console.error('Failed to delete the item');
                 }
@@ -28,26 +30,30 @@ function Homepage() {
             .catch(error => console.error('Error:', error));
     };
 
-    const navigateToShowcase = (id) => {
+    const navigateToShowcase = id => {
         navigate(`/Showcase/${id}`);
     };
 
-    const filteredPieces = pieces.filter(piece => 
+    const filteredPieces = pieces.filter(piece =>
         piece.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
     return (
         <>
+            <h1 id="homepage-title">Piece-Scanner</h1>
+
             <div id="search">
-                <TextField 
-                    label="Search Clothes" 
-                    variant="outlined" 
+                <TextField
+                    label="Search Clothes"
+                    variant="outlined"
                     value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
+                    onChange={e => setSearchTerm(e.target.value)}
                 />
-                <Link to="/AddNewClothes">CREATE</Link>
+                <Link to="/AddNewClothes" id="create-link">
+                    CREATE
+                </Link>
             </div>
-            
+
             <div id="cards">
                 {filteredPieces.map((piece, i) => (
                     <React.Fragment key={piece.id}>
@@ -55,10 +61,15 @@ function Homepage() {
                         <div onClick={() => navigateToShowcase(piece.id)}>
                             <Cards image={piece.image_url} />
                         </div>
-                        <Button onClick={() => deleteClothing(piece.id)}>Delete</Button>
+                        <Button
+                            onClick={() => deleteClothing(piece.id)}
+                            className="deleteButton"
+                        >
+                            Delete
+                        </Button>
                     </React.Fragment>
                 ))}
-            </div> 
+            </div>
         </>
     );
 }

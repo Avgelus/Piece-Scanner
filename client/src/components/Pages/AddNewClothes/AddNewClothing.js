@@ -127,8 +127,8 @@ function AddNewClothes() {
                 placeholder="Image URL"
             />
 
-            <Button type="submit">Create Clothes</Button>
-            <Button onClick={goToHomepage}>Go to Homepage</Button>
+            <Button type="submit" id="creationbutton">Create Clothes</Button>
+            <Button onClick={goToHomepage} id="homepagebutton">Go to Homepage</Button>
         </form>
     );
 }
